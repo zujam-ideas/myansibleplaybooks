@@ -22,5 +22,4 @@
       name: snmpd 
       state: started 
       enabled: yes
-     when: service_status_check.stdout == "service_inactive" and "service_unavailable"
-
+     when: service_status_check.stdout == "service_inactive" or "service_unavailable"
