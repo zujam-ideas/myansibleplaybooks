@@ -1,0 +1,26 @@
+- name: 'Installation Of SNMPD Service & Verification'
+  hosts: all
+  user: ansadm
+  become: yes
+  become_method: sudo        
+  tasks:
+
+   - name: 'Verify SNMP service is present or not'
+     shell: if systemctl status snmpd |egrep 'inactive|dead|stopped'|grep -v grep >/dev/null; then echo 'service_inactive';else echo 'service_unavailable';fi
+     ignore_errors: true
+     register: service_status_check
+   
+   - name: 'Install the SNMPD service if its not available...'
+     yum: 
+      name: net-snmp.x86_64 
+      state: present
+     when: service_status_check.stdout == "service_unavailable"
+     register: yum_update
+
+   - name: 'Start the SNMPD service if its not running...'
+     service: 
+      name: snmpd 
+      state: started 
+      enabled: yes
+     when: service_status_check.stdout == "service_inactive" and "service_unavailable"
+
