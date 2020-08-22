@@ -12,8 +12,8 @@
    
    - name: 'Install the SNMPD service if its not available...'
      yum: 
-      name: net-snmp.x86_64 
-      state: present
+      name: net-snmp 
+      state: latest
      when: service_status_check.stdout == "service_unavailable"
      register: yum_update
 
