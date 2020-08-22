@@ -1,0 +1,15 @@
+- name: 'To uninstall multiple packages on a system'
+  hosts: all
+  become_method: sudo
+  vars: 
+   packages:
+     - httpd
+     - vsftpd
+     - net-snmp
+  tasks:
+   
+   - name: 'Remove packages from the system'
+     yum:
+      name: '{{ item }}'
+      state: absent
+     with_items: '{{ packages }}' 
