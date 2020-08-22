@@ -1,17 +1,17 @@
-- name: To remove a package from the system
+- name: 'To remove a SNMP package from the system'
   hosts: all
   user: ansadm
   become: yes
   become_method: sudo
   tasks:
   
-  - name: Disable & stop SNMP
+  - name: 'Disable & Stop SNMPD Service'
     service:
      name: snmpd
      enabled: no
      state: stopped
 
-  - name: Remove a specific package & its repositories
+  - name: 'Remove SNMP package & its repositories from the system'
     yum:
      name: net-snmp
      state: absent
